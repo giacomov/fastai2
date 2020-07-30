@@ -6,6 +6,8 @@ To learn more about the library, read our introduction in the [paper](https://ar
 
 ## Installing
 
+### Normal installation
+
 You can get all the necessary dependencies by simply installing fastai v1: `conda install -c fastai -c pytorch fastai`. Or alternatively you can automatically install the dependencies into a new environment:
 
 ```bash
@@ -36,6 +38,44 @@ To use `fastai2.medical.imaging` you'll also need to:
 conda install pyarrow
 pip install pydicom kornia opencv-python scikit-image
 ```
+
+### Docker
+
+If you have docker>=19.03 set up (see [here](https://github.com/NVIDIA/nvidia-docker/wiki) for installing it with GPU support) you can use fastai2 without installing anything:
+
+#### Running jupyter lab
+
+The first time you need to run:
+```bash
+docker run --name fastai2 --gpus all -p 8890:8890 giacomov/fastai2 jupyter lab --ip='*' --port 8890 --no-browser
+```
+
+After a few seconds you will see something like:
+
+```
+The Jupyter Notebook is running at:
+http://fe4c6f41277b:8890/?token=6aac41e796bae49489abf941d277f668d384b429210bedbe
+ or http://127.0.0.1:8890/?token=6aac41e796bae49489abf941d277f668d384b429210bedbe
+```
+Copy paste the latest url (starting with `http://127.0.0.1`) into your browser and enjoy fastai!
+
+From Jupyter Lab you can also open a terminal in the container, if you need a command line.
+
+Use Ctrl-C in the same terminal where you started the container to stop it. Your file will be kept in the container.
+
+The next time you can simply do:
+
+```
+docker start -i fastai2
+```
+
+to resume where you stopped.
+
+#### Where are my files
+
+Everything you create in the container stays in the container, until you remove the container with `docker rm fastai2`. If you want to export
+your files to the host you can use the command `docker cp`. You can also mount directories in the container, see the docker documentation for
+that.
 
 ## Tests
 

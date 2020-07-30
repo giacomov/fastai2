@@ -1,4 +1,6 @@
-FROM nvidia/cuda:10.2-base
+# Stage 1: build
+
+FROM nvidia/cuda:10.2-base as build_stage
 
 # build argument: if it's not passed, default to fastai2
 ARG DOCKER_USER=fastai2
@@ -19,6 +21,15 @@ RUN useradd -ms /bin/bash $DOCKER_USER
 
 # Assign the conda directory to that user
 RUN chown --recursive $DOCKER_USER:$DOCKER_USER /miniconda3
+
+
+# Stage 2: final touch ups
+FROM nvidia/cuda:10.2-base
+
+# Re-create non-root user in this stage
+RUN useradd -ms /bin/bash $DOCKER_USER
+
+COPY --chown=$DOCKER_USER --from=build_stage /miniconda3 /miniconda3
 
 # Tell docker that all future commands should run as the non-root user
 USER $DOCKER_USER

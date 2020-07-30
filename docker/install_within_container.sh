@@ -37,7 +37,7 @@ pip install .
 cd ..
 
 # Install jupyter lab
-conda install -y jupyterlab
+conda install -y jupyterlab nodejs ipympl
 
 # Free up some space
 
