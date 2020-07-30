@@ -26,6 +26,8 @@ RUN chown --recursive $DOCKER_USER:$DOCKER_USER /miniconda3
 # Stage 2: final touch ups
 FROM nvidia/cuda:10.2-base
 
+ARG DOCKER_USER=fastai2
+
 # Re-create non-root user in this stage
 RUN useradd -ms /bin/bash $DOCKER_USER
 

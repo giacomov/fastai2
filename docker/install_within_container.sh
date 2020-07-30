@@ -1,6 +1,8 @@
 #!/bin/bash
 
 set -e
+set -x
+
 cd /root
 
 # Install minimal packages needed
@@ -20,6 +22,7 @@ export PATH=/miniconda3/bin:${PATH}
 cd /root/fastai2
 conda env create -f environment.yml
 source activate fastai2
+conda install -y jupyterlab nodejs ipympl
 
 # Instruct pip not to use any caching, so the image
 # stays small
@@ -36,17 +39,15 @@ cd fastcore
 pip install .
 cd ..
 
-# Install jupyter lab
-conda install -y jupyterlab nodejs ipympl
+# Clean conda cache
+conda clean --all -y
+rm -rf /miniconda3/pkgs/*
 
 # Free up some space
 
 # Remove git and wget
 apt-get purge -y git wget
 apt-get --purge -y autoremove
-
-# Clean conda cache
-conda clean --all -y
 
 # Remove repositories
 rm -rf fastai2
